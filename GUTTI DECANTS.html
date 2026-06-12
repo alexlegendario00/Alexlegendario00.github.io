@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guty Decants</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#111;
+    color:white;
+}
+
+/* HEADER */
+
+header{
+    text-align:center;
+    padding:30px;
+    background:black;
+    border-bottom:2px solid #d4af37;
+}
+
+header h1{
+    color:#d4af37;
+    font-size:45px;
+}
+
+header p{
+    color:#aaa;
+    margin-top:10px;
+}
+
+/* SLIDER */
+
+.slider{
+    width:100%;
+    height:400px;
+    overflow:hidden;
+}
+
+.slides{
+    display:flex;
+    width:500%;
+    animation:slide 20s infinite;
+}
+
+.slides img{
+    width:100%;
+    height:400px;
+    object-fit:cover;
+}
+
+@keyframes slide{
+
+0%{transform:translateX(0);}
+20%{transform:translateX(0);}
+
+25%{transform:translateX(-100%);}
+45%{transform:translateX(-100%);}
+
+50%{transform:translateX(-200%);}
+70%{transform:translateX(-200%);}
+
+75%{transform:translateX(-300%);}
+95%{transform:translateX(-300%);}
+
+100%{transform:translateX(-400%);}
+
+}
+
+/* BUSCADOR */
+
+.buscador-container{
+    padding:25px;
+    text-align:center;
+}
+
+#buscador{
+    width:90%;
+    max-width:700px;
+    padding:18px;
+    border:none;
+    border-radius:14px;
+    background:#1d1d1d;
+    color:white;
+    font-size:17px;
+    border:1px solid #444;
+}
+
+/* CATÁLOGO */
+
+.catalogo{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+    padding:30px;
+}
+
+.card{
+    background:#1d1d1d;
+    border-radius:15px;
+    overflow:hidden;
+    border:1px solid #2e2e2e;
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.card img{
+    width:100%;
+    height:320px;
+    object-fit:cover;
+}
+
+.card h2{
+    text-align:center;
+    padding:15px 10px 5px;
+}
+
+.descripcion{
+    text-align:center;
+    color:#bbb;
+    padding:0 15px 10px;
+}
+
+.precio{
+    text-align:center;
+    color:#d4af37;
+    font-weight:bold;
+    margin-top:5px;
+}
+
+.botones{
+    text-align:center;
+    padding:15px;
+}
+
+.botones button{
+    padding:10px 15px;
+    margin:5px;
+    border:none;
+    border-radius:8px;
+    background:#d4af37;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* MODAL */
+
+.modal{
+    display:none;
+    position:fixed;
+    z-index:999;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.8);
+}
+
+.modal-content{
+    background:#1c1c1c;
+    width:90%;
+    max-width:500px;
+    margin:5% auto;
+    padding:30px;
+    border-radius:15px;
+}
+
+.modal-content input,
+.modal-content textarea{
+    width:100%;
+    padding:15px;
+    margin-top:10px;
+    border:none;
+    border-radius:10px;
+    background:#2c2c2c;
+    color:white;
+}
+
+.modal-content button{
+    width:100%;
+    margin-top:20px;
+    padding:15px;
+    border:none;
+    border-radius:10px;
+    background:#25D366;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+}
+
+.cerrar{
+    float:right;
+    font-size:30px;
+    cursor:pointer;
+    color:red;
+}
+
+/* ADMIN */
+
+#adminBtn{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:#d4af37;
+    border:none;
+    padding:15px 20px;
+    border-radius:50px;
+    font-weight:bold;
+    cursor:pointer;
+    z-index:999;
+}
+
+.admin-panel{
+    display:none;
+    position:fixed;
+    z-index:1000;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.9);
+}
+
+.admin-content{
+    background:#1d1d1d;
+    width:90%;
+    max-width:600px;
+    margin:4% auto;
+    padding:30px;
+    border-radius:15px;
+}
+
+.admin-menu{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+}
+
+.admin-menu button{
+    flex:1;
+    padding:15px;
+    border:none;
+    border-radius:10px;
+    background:#d4af37;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.admin-section{
+    display:none;
+}
+
+.admin-section.active{
+    display:block;
+}
+
+.admin-content input{
+    width:100%;
+    padding:15px;
+    margin-top:10px;
+    border:none;
+    border-radius:10px;
+    background:#2c2c2c;
+    color:white;
+}
+
+.admin-content button.action{
+    width:100%;
+    margin-top:20px;
+    padding:15px;
+    border:none;
+    border-radius:10px;
+    background:#25D366;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+footer{
+    text-align:center;
+    padding:20px;
+    background:black;
+    color:#666;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Guty Decants 🔥</h1>
+<p>Perfumes originales en decants premium</p>
+</header>
+
+<!-- SLIDER -->
+
+<div class="slider">
+<div class="slides">
+
+<img src="https://fimgs.net/mdimg/perfume/375x500.31861.jpg">
+<img src="https://fimgs.net/mdimg/perfume/375x500.9099.jpg">
+<img src="https://fimgs.net/mdimg/perfume/375x500.9828.jpg">
+<img src="https://fimgs.net/mdimg/perfume/375x500.50757.jpg">
+<img src="./1000006261.png">
+
+</div>
+</div>
+
+<!-- BUSCADOR -->
+
+<div class="buscador-container">
+
+<input
+type="text"
+id="buscador"
+placeholder="Ej: perfume elegante, invierno, económico..."
+onkeyup="buscarPerfume()">
+
+</div>
+
+<!-- CATÁLOGO -->
+
+<section class="catalogo" id="catalogo">
+
+<div class="card">
+
+<img src="https://fimgs.net/mdimg/perfume/375x500.31861.jpg">
+
+<h2>Dior Sauvage</h2>
+
+<p class="descripcion">
+Fresco, potente y masculino.
+</p>
+
+<p class="precio">3ml — ₲20.000</p>
+<p class="precio">5ml — ₲35.000</p>
+<p class="precio">10ml — ₲60.000</p>
+
+<div class="botones">
+
+<button onclick="abrirFormulario('Dior Sauvage 3ml')">3ml</button>
+
+<button onclick="abrirFormulario('Dior Sauvage 5ml')">5ml</button>
+
+<button onclick="abrirFormulario('Dior Sauvage 10ml')">10ml</button>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<img src="./1000006261.png">
+
+<h2>Tembo Channel</h2>
+
+<p class="descripcion">
+Aroma especiado y cálido 🔥
+</p>
+
+<p class="precio">3ml — ₲15.000</p>
+<p class="precio">5ml — ₲25.000</p>
+<p class="precio">10ml — ₲40.000</p>
+
+<div class="botones">
+
+<button onclick="abrirFormulario('Tembo Channel 3ml')">3ml</button>
+
+<button onclick="abrirFormulario('Tembo Channel 5ml')">5ml</button>
+
+<button onclick="abrirFormulario('Tembo Channel 10ml')">10ml</button>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- MODAL PEDIDOS -->
+
+<div id="modal" class="modal">
+
+<div class="modal-content">
+
+<span class="cerrar" onclick="cerrarFormulario()">
+&times;
+</span>
+
+<h2>Solicitar Pedido</h2>
+
+<input type="text" id="producto" readonly>
+
+<input type="text" id="nombre" placeholder="Nombre">
+
+<input type="text" id="apellido" placeholder="Apellido">
+
+<input type="text" id="ciudad" placeholder="Ciudad">
+
+<input type="text" id="direccion" placeholder="Dirección">
+
+<textarea id="obs" placeholder="Observaciones"></textarea>
+
+<button onclick="enviarWhatsApp()">
+Enviar Pedido
+</button>
+
+</div>
+
+</div>
+
+<!-- ADMIN -->
+
+<button id="adminBtn" onclick="abrirAdmin()">
+⚙️ Admin
+</button>
+
+<div id="adminPanel" class="admin-panel">
+
+<div class="admin-content">
+
+<span class="cerrar" onclick="cerrarAdmin()">
+&times;
+</span>
+
+<h2>Panel Administrador</h2>
+
+<!-- MENÚ -->
+
+<div class="admin-menu">
+
+<button onclick="mostrarSeccion('agregar')">
+Agregar Producto
+</button>
+
+<button onclick="mostrarSeccion('editar')">
+Editar Producto
+</button>
+
+</div>
+
+<!-- AGREGAR -->
+
+<div id="agregar" class="admin-section active">
+
+<input type="text" id="nuevoNombre" placeholder="Nombre">
+
+<input type="text" id="nuevaDescripcion" placeholder="Descripción">
+
+<input type="number" id="precio3" placeholder="Precio 3ml">
+
+<input type="number" id="precio5" placeholder="Precio 5ml">
+
+<input type="number" id="precio10" placeholder="Precio 10ml">
+
+<input type="text" id="imagenURL" placeholder="URL imagen">
+
+<button class="action" onclick="agregarProducto()">
+Agregar Producto
+</button>
+
+</div>
+
+<!-- EDITAR -->
+
+<div id="editar" class="admin-section">
+
+<input type="number" id="numeroProducto" placeholder="Número del producto">
+
+<input type="text" id="nuevoPrecio" placeholder="Nuevo precio 10ml">
+
+<input type="text" id="nuevaImagen" placeholder="Nueva URL imagen">
+
+<button class="action" onclick="editarProducto()">
+Guardar Cambios
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<footer>
+© 2026 Guty Decants
+</footer>
+
+<script>
+
+/* BUSCADOR IA */
+
+function buscarPerfume(){
+
+let input =
+document.getElementById("buscador")
+.value
+.toLowerCase();
+
+let cards =
+document.querySelectorAll(".card");
+
+cards.forEach(card=>{
+
+let texto =
+card.innerText.toLowerCase();
+
+if(texto.includes(input)){
+
+card.style.display="block";
+
+}else{
+
+card.style.display="none";
+
+}
+
+});
+
+}
+
+/* MODAL */
+
+function abrirFormulario(producto){
+
+document.getElementById("modal").style.display="block";
+
+document.getElementById("producto").value=producto;
+
+}
+
+function cerrarFormulario(){
+
+document.getElementById("modal").style.display="none";
+
+}
+
+/* WHATSAPP */
+
+function enviarWhatsApp(){
+
+let producto =
+document.getElementById("producto").value;
+
+let nombre =
+document.getElementById("nombre").value;
+
+let apellido =
+document.getElementById("apellido").value;
+
+let ciudad =
+document.getElementById("ciudad").value;
+
+let direccion =
+document.getElementById("direccion").value;
+
+let obs =
+document.getElementById("obs").value;
+
+let mensaje =
+`🔥 NUEVO PEDIDO 🔥
+
+📦 ${producto}
+
+👤 ${nombre} ${apellido}
+
+🏙️ ${ciudad}
+
+📍 ${direccion}
+
+📝 ${obs}`;
+
+let telefono = "595981123456";
+
+window.open(
+`https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`,
+"_blank"
+);
+
+}
+
+/* ADMIN */
+
+function abrirAdmin(){
+
+document.getElementById("adminPanel").style.display="block";
+
+}
+
+function cerrarAdmin(){
+
+document.getElementById("adminPanel").style.display="none";
+
+}
+
+function mostrarSeccion(id){
+
+document
+.querySelectorAll(".admin-section")
+.forEach(sec=>{
+
+sec.classList.remove("active");
+
+});
+
+document
+.getElementById(id)
+.classList.add("active");
+
+}
+
+/* AGREGAR */
+
+function agregarProducto(){
+
+let nombre =
+document.getElementById("nuevoNombre").value;
+
+let descripcion =
+document.getElementById("nuevaDescripcion").value;
+
+let p3 =
+document.getElementById("precio3").value;
+
+let p5 =
+document.getElementById("precio5").value;
+
+let p10 =
+document.getElementById("precio10").value;
+
+let imagen =
+document.getElementById("imagenURL").value;
+
+let card =
+document.createElement("div");
+
+card.classList.add("card");
+
+card.innerHTML = `
+
+<img src="${imagen}">
+
+<h2>${nombre}</h2>
+
+<p class="descripcion">
+${descripcion}
+</p>
+
+<p class="precio">
+3ml — ₲${p3}
+</p>
+
+<p class="precio">
+5ml — ₲${p5}
+</p>
+
+<p class="precio">
+10ml — ₲${p10}
+</p>
+
+<div class="botones">
+
+<button onclick="abrirFormulario('${nombre} 3ml')">
+3ml
+</button>
+
+<button onclick="abrirFormulario('${nombre} 5ml')">
+5ml
+</button>
+
+<button onclick="abrirFormulario('${nombre} 10ml')">
+10ml
+</button>
+
+</div>
+
+`;
+
+document
+.getElementById("catalogo")
+.appendChild(card);
+
+alert("Producto agregado 🔥");
+
+}
+
+/* EDITAR */
+
+function editarProducto(){
+
+let numero =
+document.getElementById("numeroProducto").value;
+
+let nuevoPrecio =
+document.getElementById("nuevoPrecio").value;
+
+let nuevaImagen =
+document.getElementById("nuevaImagen").value;
+
+let cards =
+document.querySelectorAll(".card");
+
+let card = cards[numero];
+
+if(card){
+
+if(nuevoPrecio){
+
+card.querySelectorAll(".precio")[2]
+.innerHTML =
+`10ml — ₲${nuevoPrecio}`;
+
+}
+
+if(nuevaImagen){
+
+card.querySelector("img")
+.src = nuevaImagen;
+
+}
+
+alert("Producto actualizado 🔥");
+
+}else{
+
+alert("Producto no encontrado 💀");
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
